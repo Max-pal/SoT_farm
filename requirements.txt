@@ -1,0 +1,11 @@
+numpy
+pandas
+tweepy
+matplotlib
+seaborn
+textblob
+mysql-connector-python
+geopy
+plotly
+nltk
+dash
