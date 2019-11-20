@@ -87,7 +87,7 @@ DATABASE_URL = 'postgres://dbmasteruser:W?SbU5f6MOS9CG2z1C*C)hz?)>SF|2l,@ls-32cb
 
 conn = psycopg2.connect(DATABASE_URL, sslmode='require')
 cur = conn.cursor()
-
+'''
 cur.execute("""
         SELECT COUNT(*)
         FROM information_schema.tables
@@ -97,7 +97,7 @@ if cur.fetchone()[0] == 0:
     cur.execute("CREATE TABLE {} ({});".format(settings.TABLE_NAME, settings.TABLE_ATTRIBUTES))
     conn.commit()
 cur.close()
-
+'''
 auth = tweepy.OAuthHandler(credentials.API_KEY, credentials.API_SECRET_KEY)
 auth.set_access_token(credentials.ACCESS_TOKEN, credentials.ACCESS_TOKEN_SECRET)
 api = tweepy.API(auth)
