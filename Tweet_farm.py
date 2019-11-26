@@ -1,5 +1,6 @@
 # Extracting streaming data from Twitter, pre-processing, and loading into AWS PSQL
 import settings  # Import related setting constants from settings.py
+import credentials
 import psycopg2
 import re
 import tweepy
