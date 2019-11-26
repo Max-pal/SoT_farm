@@ -24,11 +24,11 @@ def index(day):
         my_chart.data.add_row([tweet['hour'], tweet['count']])
     my_piechart = Chart("PieChart", "my_piechart")
     my_piechart.options = {
-                            "title": "Client Sources",
-                            "is3D": True,
-                            "width": 500,
-                            "height": 500
-                          }
+        "title": "Client Sources",
+        "is3D": True,
+        "width": 500,
+        "height": 500
+    }
     my_piechart.data.add_column("string", "Client source")
     my_piechart.data.add_column("number", "Count")
     for tweet in data2:
@@ -37,4 +37,4 @@ def index(day):
 
 
 if __name__ == '__main__':
-  app.run(host='35.156.176.186:80')
+    app.run(host='35.156.176.186', port=80)
