@@ -34,3 +34,7 @@ def index(day):
     for tweet in data2:
         my_piechart.data.add_row([tweet['client_source'], tweet['count']])
     return render_template('index.html', my_chart=my_chart, my_piechart=my_piechart)
+
+
+if __name__ == '__main__':
+  app.run(host='35.156.176.186')
