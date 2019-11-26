@@ -37,4 +37,4 @@ def index(day):
 
 
 if __name__ == '__main__':
-  app.run(host='35.156.176.186')
+  app.run(host='35.156.176.186:80')
