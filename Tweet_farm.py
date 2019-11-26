@@ -1,5 +1,4 @@
-# Extracting streaming data from Twitter, pre-processing, and loading into Heroku PSQL
-import credentials  # Import api/access_token keys from credentials.py
+# Extracting streaming data from Twitter, pre-processing, and loading into AWS PSQL
 import settings  # Import related setting constants from settings.py
 import psycopg2
 import re
@@ -33,27 +32,15 @@ class MyStreamListener(tweepy.StreamListener):
         # retweet_count = status.retweet_count
         # favorite_count = status.favorite_count
 
-        # Store all data in Heroku PSQL
-        cur = conn.cursor()
+        # Store all data in AWS PSQL
+        cur = conn.cursor()# Connection goes here as well, exception handling when disconected, or/and check the connection
         sql = "INSERT INTO {} (id_str, created_at, text, polarity, subjectivity, user_created_at, user_location, user_description, user_followers_count, user_lang, client_source) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s ,%s)".format(
             settings.TABLE_NAME)
         val = (id_str, created_at, text, polarity, subjectivity, user_created_at, user_location, \
                user_description, user_followers_count, user_lang, client_source)
         cur.execute(sql, val)
         conn.commit()
-        # use dictonary instead of tupple
-        # delete_query = '''
-        # DELETE FROM {0}
-        # WHERE id_str IN (
-        #     SELECT id_str
-        #     FROM {0}
-        #     ORDER BY created_at asc
-        #         LIMIT 200) AND (SELECT COUNT(*) FROM {0}) > 9600;
-        # '''.format(settings.TABLE_NAME)
-        #
-        # cur.execute(delete_query)
-        # conn.commit()
-        # cur.close()
+        cur.close()
 
     def on_error(self, status_code):
         '''
@@ -65,7 +52,7 @@ class MyStreamListener(tweepy.StreamListener):
 
 
 def clean_tweet(self, tweet):
-    ''' 
+    '''
     Clean tweet text by removing links and special characters
     '''
     return ' '.join(re.sub("(@[A-Za-z0-9]+)|([^0-9A-Za-z \t]) \
@@ -82,7 +69,6 @@ def deEmojify(text):
         return None
 
 
-                #TheMandaloiran table 'postgres://mrhohhmmvyfame:6932cd6eaa940cc6adee6faabea5e292c57dd7a87614626e037ef8206067eb66@ec2-54-75-224-168.eu-west-1.compute.amazonaws.com:5432/de3gatit5ecn4s'
 DATABASE_URL = 'postgres://dbmasteruser:W?SbU5f6MOS9CG2z1C*C)hz?)>SF|2l,@ls-32cbb4d180aaad0b359695120eedc91e6fca9dfa.clcnyrcuavnn.eu-central-1.rds.amazonaws.com:5432/postgres' \
 
 conn = psycopg2.connect(DATABASE_URL, sslmode='require')
